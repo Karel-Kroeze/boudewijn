@@ -1,0 +1,17 @@
+{
+    "include": ["./src/**/*", "./tests/**/*"],
+    "compilerOptions": {
+        "target": "ES6",
+        "lib": ["ES2020"],
+        "strict": true,
+        "sourceMap": true,
+        "declaration": true,
+        "rootDir": ".",
+        "outDir": "./dist",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "moduleResolution": "Node"
+    }
+}
