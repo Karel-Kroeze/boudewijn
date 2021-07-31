@@ -1,20 +1,46 @@
 {
     "name": "boudewijn",
-    "type": "module",
+    "version": "1.0.0",
     "scripts": {
-        "dev": "tsc -w"
+        "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js && tsc --emitDeclarationOnly"
     },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "typings": "dist/index.d.ts",
+    "type": "module",
     "dependencies": {
-        "@types/lodash": "^4.14.168",
-        "@types/node": "^15.0.2",
-        "@types/slice-ansi": "^5.0.0",
-        "@types/wrap-ansi": "^3.0.0",
         "chalk": "^4.1.1",
-        "lodash": "^4.17.21",
         "slice-ansi": "^5.0.0",
         "string-length": "^4.0.2",
         "term-size": "^2.2.1",
-        "typescript": "^4.2.4",
         "wrap-ansi": "^8.0.0"
-    }
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.168",
+        "@types/node": "^15.14.4",
+        "@types/slice-ansi": "^5.0.0",
+        "@types/wrap-ansi": "^3.0.0",
+        "esbuild": "^0.12.16",
+        "typescript": "^3.0.0"
+    },
+    "description": "boudewijn is a columnist. easily create logs with declared column sizes, independent of content",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Karel-Kroeze/boudewijn.git"
+    },
+    "keywords": [
+        "log",
+        "columns",
+        "table",
+        "realtime",
+        "fixed",
+        "width",
+        "logging"
+    ],
+    "author": "Karel Kroeze <karel.kroeze@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Karel-Kroeze/boudewijn/issues"
+    },
+    "homepage": "https://github.com/Karel-Kroeze/boudewijn#readme"
 }

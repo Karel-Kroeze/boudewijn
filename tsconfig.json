@@ -1,17 +1,18 @@
 {
-    "include": ["./src/**/*", "./tests/**/*"],
+    "include": ["./src/**/*"],
     "compilerOptions": {
-        "target": "ES6",
+        "target": "es2020",
         "lib": ["ES2020"],
         "strict": true,
         "sourceMap": true,
         "declaration": true,
-        "rootDir": ".",
+        "rootDir": "./src",
         "outDir": "./dist",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
-        "moduleResolution": "Node"
+        "moduleResolution": "Node",
+        "isolatedModules": true
     }
 }

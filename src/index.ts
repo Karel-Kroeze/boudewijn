@@ -3,6 +3,8 @@ import stringLength from "string-length";
 import terminalSize from "term-size";
 import wrapAnsi from "wrap-ansi";
 
+import { clearScreenDown, cursorTo, moveCursor, write } from "./stdout-promisified";
+
 type Alignment = "left" | "right" | "center" | "justify";
 
 export interface ColumnOptions {
@@ -10,6 +12,7 @@ export interface ColumnOptions {
     wrap?: boolean;
     align?: Alignment;
     format?: (content: string) => string;
+    style?: (content: string) => string;
 }
 
 export class Boudewijn<
@@ -18,7 +21,9 @@ export class Boudewijn<
 > {
     constructor(private columns: ColumnDefs, private separator: string = " ") {}
 
-    log(...parts: string[]): void {
+    previous: number | undefined;
+
+    async log(...parts: string[]): Promise<void> {
         const widths = this.columnSizes(this.columns, terminalSize().columns);
         const texts: string[][] = [];
         for (let i = 0; i < Math.min(parts.length, this.columns.length); i++) {
@@ -34,6 +39,7 @@ export class Boudewijn<
         }
 
         let lines = texts.reduce((acc, cur) => Math.max(cur.length, acc), 0);
+        this.previous = lines;
         let res = "";
         for (let line = 0; line < lines; line++) {
             for (let col = 0; col < texts.length; col++) {
@@ -41,7 +47,10 @@ export class Boudewijn<
                 const width = widths[col];
                 const text = texts[col][line];
                 if (text) {
-                    res += this.alignText(text, column, width);
+                    res += this.styleText(
+                        this.alignText(text, column, width),
+                        column
+                    );
                 } else {
                     res += " ".repeat(width);
                 }
@@ -51,7 +60,17 @@ export class Boudewijn<
             }
             res += "\n";
         }
-        process.stdout.write(res);
+        await write(res);
+    }
+
+    async update(...parts: string[]) {
+        // clear previous lines from the screen
+        if (this.previous) {
+            await cursorTo(0);
+            await moveCursor(0, -this.previous);
+            await clearScreenDown();
+        }
+        await this.log(...parts);
     }
 
     columnSizes(columns: ColumnDefs, width: number): number[] {
@@ -89,7 +108,11 @@ export class Boudewijn<
         return column.format ? column.format(text) : text;
     }
 
-    isFlexColumn(column: ColumnType): boolean {
+    styleText(text: string, column: ColumnType) {
+        return column.style ? column.style(text) : text;
+    }
+
+    private isFlexColumn(column: ColumnType): boolean {
         return typeof column.width !== "number" || column.width < 1;
     }
 }
