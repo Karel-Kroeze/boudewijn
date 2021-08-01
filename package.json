@@ -7,7 +7,6 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "typings": "dist/index.d.ts",
-    "type": "module",
     "dependencies": {
         "chalk": "^4.1.1",
         "slice-ansi": "^5.0.0",
@@ -20,7 +19,7 @@
         "@types/node": "^15.14.4",
         "@types/slice-ansi": "^5.0.0",
         "@types/wrap-ansi": "^3.0.0",
-        "esbuild": "^0.12.16",
+        "esbuild": "^0.12.17",
         "typescript": "^3.0.0"
     },
     "description": "boudewijn is a columnist. easily create logs with declared column sizes, independent of content",
